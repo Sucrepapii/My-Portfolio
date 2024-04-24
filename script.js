@@ -59,3 +59,24 @@ const typed = new Typed('.multiple-text', {
     loop:true
 
 })
+
+
+function downloadCV() {
+    // Replace 'https://www.example.com/path/to/cv.pdf' with the actual CV URL
+    const cvUrl = 'Samuel  Akinboro Resume.pdf';
+    const fileName = cvUrl.substring(cvUrl.lastIndexOf('/') + 1);
+    
+    fetch(cvUrl)
+        .then(response => response.blob())
+        .then(blob => {
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = fileName;
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+            document.body.removeChild(a);
+        })
+        .catch(error => console.error('Error downloading CV:', error));
+}
